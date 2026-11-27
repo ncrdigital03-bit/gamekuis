@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detektif SPLDV - Misi Harga Misterius</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #172033;
+        background: linear-gradient(135deg, #e0e7ff, #ecfeff);
+        min-height: 100vh;
+      }
+
+      header {
+        background: linear-gradient(120deg, #172554, #4338ca, #0891b2);
+        color: white;
+        text-align: center;
+        padding: 35px 18px 48px;
+      }
+
+      header p {
+        max-width: 650px;
+        margin: 10px auto;
+        line-height: 1.6;
+        color: #e0e7ff;
+      }
+
+      .tag {
+        letter-spacing: 3px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #bae6fd;
+      }
+
+      h1 {
+        font-size: clamp(30px, 6vw, 54px);
+        margin: 12px 0;
+      }
+
+      .wrap {
+        max-width: 920px;
+        margin: -20px auto 30px;
+        padding: 0 15px;
+      }
+
+      .panel {
+        background: white;
+        border-radius: 20px;
+        padding: 22px;
+        margin-bottom: 18px;
+        box-shadow: 0 12px 35px #1e3a8a16;
+      }
+
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .pill {
+        background: #dbeafe;
+        color: #1d4ed8;
+        border-radius: 30px;
+        padding: 8px 13px;
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      .score {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .progress {
+        height: 9px;
+        background: #e2e8f0;
+        border-radius: 20px;
+        margin: 15px 0 22px;
+        overflow: hidden;
+      }
+
+      .bar {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #06b6d4, #6366f1);
+        transition: 0.3s;
+      }
+
+      h2 {
+        color: #172554;
+        margin: 0 0 10px;
+      }
+
+      .muted {
+        color: #64748b;
+        line-height: 1.6;
+      }
+
+      .story {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 14px;
+        padding: 16px;
+        margin: 16px 0;
+        line-height: 1.6;
+      }
+
+      .equations {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 18px;
+      }
+
+      .eq {
+        background: #f5f3ff;
+        border: 2px dashed #a5b4fc;
+        color: #312e81;
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .inputs label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 7px;
+      }
+
+      .inputs input {
+        width: 100%;
+        padding: 13px;
+        border: 2px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 18px;
+      }
+
+      .inputs input:focus {
+        outline: 2px solid #818cf8;
+        border-color: #6366f1;
+      }
+
+      button {
+        border: 0;
+        border-radius: 11px;
+        padding: 12px 17px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 5px 5px 0 0;
+      }
+
+      .primary {
+        background: #4338ca;
+        color: white;
+      }
+
+      .secondary {
+        background: #e0e7ff;
+        color: #312e81;
+      }
+
+      .hintbtn {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .feedback,
+      .hint {
+        display: none;
+        padding: 13px;
+        border-radius: 11px;
+        margin-top: 14px;
+        line-height: 1.5;
+      }
+
+      .good {
+        display: block;
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .bad {
+        display: block;
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .hint {
+        background: #fffbeb;
+        color: #854d0e;
+        border: 1px solid #fde68a;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .center {
+        text-align: center;
+        padding: 25px 8px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .stat {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 14px;
+      }
+
+      .stat b {
+        display: block;
+        font-size: 24px;
+        color: #4338ca;
+      }
+
+      .footer {
+        text-align: center;
+        color: #64748b;
+        font-size: 13px;
+        padding: 8px 0 25px;
+      }
+
+      @media (max-width: 600px) {
+        .inputs {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .panel {
+          padding: 17px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="tag">GAME MATEMATIKA INTERAKTIF</div>
+      <h1>🕵️ DETEKTIF SPLDV</h1>
+      <p>
+        <b>Misi Harga Misterius</b><br />
+        Pecahkan petunjuk, temukan harga barang, dan buktikan bahwa kamu jago
+        Sistem Persamaan Linear Dua Variabel!
+      </p>
+    </header>
+
+    <main class="wrap">
+      <section class="panel" id="game">
+        <div class="top">
+          <span class="pill" id="level">MISI 1 DARI 5</span>
+          <span class="pill score"> ⭐ Skor: <span id="score">0</span> </span>
+        </div>
+
+        <div class="progress">
+          <div class="bar" id="bar"></div>
+        </div>
+
+        <div class="top">
+          <h2 id="title">Kasus di Toko Alat Tulis</h2>
+          <span class="pill">10 poin</span>
+        </div>
+
+        <p class="muted" id="intro"></p>
+
+        <div class="story" id="story"></div>
+
+        <div class="equations" id="equations"></div>
+
+        <div class="inputs">
+          <div>
+            <label for="x">Nilai x</label>
+            <input
+              id="x"
+              type="number"
+              step="any"
+              placeholder="Masukkan nilai x"
+            />
+          </div>
+
+          <div>
+            <label for="y">Nilai y</label>
+            <input
+              id="y"
+              type="number"
+              step="any"
+              placeholder="Masukkan nilai y"
+            />
+          </div>
+        </div>
+
+        <div>
+          <button class="primary" id="check">🔍 Periksa Jawaban</button>
+
+          <button class="hintbtn" id="hintBtn">💡 Petunjuk</button>
+
+          <button class="secondary" id="clear">↻ Ulangi Isian</button>
+        </div>
+
+        <div class="hint" id="hint"></div>
+
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+
+        <div id="nextArea" class="hidden">
+          <button class="primary" id="next">Lanjut ke Misi Berikutnya ➜</button>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="result">
+        <div class="center">
+          <div style="font-size: 60px" id="medal">🏆</div>
+
+          <h2 id="resultTitle">Misi Selesai!</h2>
+
+          <p class="muted" id="resultText"></p>
+
+          <div class="stats">
+            <div class="stat">
+              <b id="finalScore">0</b>
+              Skor akhir
+            </div>
+
+            <div class="stat">
+              <b id="correct">0/5</b>
+              Misi benar
+            </div>
+
+            <div class="stat">
+              <b id="rank">Pemula</b>
+              Peringkat
+            </div>
+          </div>
+
+          <button class="primary" id="again">🔁 Main Lagi</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>📚 Ingat Kembali: Apa itu SPLDV?</h2>
+
+        <p class="muted">
+          Sistem Persamaan Linear Dua Variabel (SPLDV) adalah dua persamaan
+          linear yang memiliki dua variabel, biasanya x dan y, dan harus
+          dipenuhi secara bersamaan.
+        </p>
+
+        <div class="equations">
+          <div class="eq">ax + by = c</div>
+          <div class="eq">px + qy = r</div>
+        </div>
+
+        <p class="muted">
+          <b>Strategi penyelesaian:</b>
+          Eliminasi berarti menghilangkan salah satu variabel. Substitusi
+          berarti mengganti variabel dengan bentuk yang setara. Setelah
+          memperoleh x dan y, masukkan kembali ke kedua persamaan untuk
+          memeriksa jawaban.
+        </p>
+      </section>
+    </main>
+
+    <div class="footer">Belajar matematika jadi lebih seru! ✨</div>
+
+    <script>
+      const missions = [
+        {
+          title: "Kasus di Toko Alat Tulis",
+          intro: "Temukan harga satuan buku dan pensil.",
+          story:
+            "Rani membeli 2 buku dan 1 pensil seharga Rp11.000. Dika membeli 1 buku dan 2 pensil seharga Rp10.000. Misalkan x = harga buku dan y = harga pensil (dalam ribuan rupiah).",
+          eq: ["2x + y = 11", "x + 2y = 10"],
+          x: 4,
+          y: 3,
+          hint: "Kalikan persamaan kedua dengan 2, lalu kurangkan dengan persamaan pertama.",
+        },
+
+        {
+          title: "Misi di Kantin Sekolah",
+          intro: "Cari harga satu porsi nasi dan satu gelas jus.",
+          story:
+            "Paket A berisi 2 nasi dan 1 jus seharga Rp25.000. Paket B berisi 1 nasi dan 2 jus seharga Rp23.000. Misalkan x = harga nasi dan y = harga jus (ribuan rupiah).",
+          eq: ["2x + y = 25", "x + 2y = 23"],
+          x: 9,
+          y: 7,
+          hint: "Dari persamaan pertama, y = 25 − 2x. Substitusikan ke persamaan kedua.",
+        },
+
+        {
+          title: "Petunjuk dari Toko Buah",
+          intro: "Temukan harga apel dan jeruk.",
+          story:
+            "Ibu membeli 3 apel dan 2 jeruk seharga Rp19.000. Ayah membeli 2 apel dan 1 jeruk seharga Rp11.000. Misalkan x = harga apel dan y = harga jeruk (ribuan rupiah).",
+          eq: ["3x + 2y = 19", "2x + y = 11"],
+          x: 3,
+          y: 5,
+          hint: "Kalikan persamaan kedua dengan 2 agar koefisien y sama, kemudian kurangkan.",
+        },
+
+        {
+          title: "Tiket Pertunjukan Rahasia",
+          intro: "Temukan harga tiket dewasa dan anak-anak.",
+          story:
+            "Dua tiket dewasa dan satu tiket anak berharga Rp50.000. Satu tiket dewasa dan dua tiket anak berharga Rp40.000. Misalkan x = harga tiket dewasa dan y = harga tiket anak (ribuan rupiah).",
+          eq: ["2x + y = 50", "x + 2y = 40"],
+          x: 20,
+          y: 10,
+          hint: "Kalikan persamaan kedua dengan 2, lalu kurangkan persamaan pertama.",
+        },
+
+        {
+          title: "Kasus Terakhir: Paket Hadiah",
+          intro:
+            "Ini tantangan terakhir! Temukan harga boneka dan mobil-mobilan.",
+          story:
+            "Tiga boneka dan satu mobil-mobilan berharga Rp50.000. Satu boneka dan dua mobil-mobilan berharga Rp40.000. Misalkan x = harga boneka dan y = harga mobil-mobilan (ribuan rupiah).",
+          eq: ["3x + y = 50", "x + 2y = 40"],
+          x: 12,
+          y: 14,
+          hint: "Dari persamaan pertama, y = 50 − 3x. Substitusikan ke persamaan kedua.",
+        },
+      ];
+
+      let i = 0;
+      let score = 0;
+      let correct = 0;
+      let answered = false;
+
+      const el = (id) => document.getElementById(id);
+
+      function show() {
+        let m = missions[i];
+
+        answered = false;
+
+        el("level").textContent = `MISI ${i + 1} DARI 5`;
+
+        el("bar").style.width = `${(i / 5) * 100}%`;
+
+        el("title").textContent = m.title;
+        el("intro").textContent = m.intro;
+        el("story").textContent = m.story;
+
+        el("equations").innerHTML = m.eq
+          .map((t) => `<div class="eq">${t}</div>`)
+          .join("");
+
+        el("x").value = "";
+        el("y").value = "";
+
+        el("feedback").className = "feedback";
+        el("feedback").textContent = "";
+
+        el("hint").style.display = "none";
+        el("hint").textContent = m.hint;
+
+        el("nextArea").classList.add("hidden");
+
+        el("check").disabled = false;
+
+        el("score").textContent = score;
+      }
+
+      function check() {
+        if (answered) return;
+
+        let m = missions[i];
+
+        let xv = el("x").value;
+        let yv = el("y").value;
+
+        if (xv === "" || yv === "") {
+          el("feedback").className = "feedback bad";
+
+          el("feedback").textContent = "Isi nilai x dan y terlebih dahulu.";
+
+          return;
+        }
+
+        if (
+          Math.abs(Number(xv) - m.x) < 0.001 &&
+          Math.abs(Number(yv) - m.y) < 0.001
+        ) {
+          answered = true;
+
+          score += 10;
+          correct++;
+
+          el("score").textContent = score;
+
+          el("feedback").className = "feedback good";
+
+          el("feedback").textContent =
+            `🎉 Tepat! x = ${m.x} dan y = ${m.y}. Kamu memperoleh 10 poin. Kedua nilai memenuhi kedua persamaan.`;
+
+          el("nextArea").classList.remove("hidden");
+
+          el("check").disabled = true;
+        } else {
+          el("feedback").className = "feedback bad";
+
+          el("feedback").textContent =
+            "Belum tepat. Coba periksa lagi langkah eliminasi atau substitusimu. Gunakan tombol Petunjuk jika diperlukan.";
+        }
+      }
+
+      function next() {
+        if (i < 4) {
+          i++;
+          show();
+        } else {
+          finish();
+        }
+      }
+
+      function finish() {
+        el("game").classList.add("hidden");
+
+        el("result").classList.remove("hidden");
+
+        el("bar").style.width = "100%";
+
+        let rank =
+          score === 50
+            ? "Master SPLDV"
+            : score >= 30
+              ? "Detektif Andal"
+              : "Detektif Pemula";
+
+        el("finalScore").textContent = score;
+        el("correct").textContent = correct + "/5";
+        el("rank").textContent = rank;
+
+        el("medal").textContent =
+          score === 50 ? "🏆" : score >= 30 ? "🥈" : "🔎";
+
+        el("resultTitle").textContent =
+          score === 50 ? "Luar Biasa, Master SPLDV!" : "Misi Detektif Selesai!";
+
+        el("resultText").textContent =
+          `Kamu menyelesaikan 5 misi dan menjawab ${correct} misi dengan benar. Terus berlatih agar semakin mahir!`;
+      }
+
+      function restart() {
+        i = 0;
+        score = 0;
+        correct = 0;
+
+        el("game").classList.remove("hidden");
+
+        el("result").classList.add("hidden");
+
+        show();
+      }
+
+      el("check").onclick = check;
+
+      el("hintBtn").onclick = () => {
+        el("hint").style.display = "block";
+      };
+
+      el("clear").onclick = () => {
+        el("x").value = "";
+        el("y").value = "";
+
+        el("feedback").className = "feedback";
+        el("feedback").textContent = "";
+      };
+
+      el("next").onclick = next;
+
+      el("again").onclick = restart;
+
+      el("x").onkeydown = (e) => {
+        if (e.key === "Enter") check();
+      };
+
+      el("y").onkeydown = (e) => {
+        if (e.key === "Enter") check();
+      };
+
+      show();
+    </script>
+  </body>
+</html>
